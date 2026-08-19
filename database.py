@@ -55,3 +55,17 @@ def get_all_data_df():
     df = pd.read_sql_query("SELECT * FROM responses", conn)
     conn.close()
     return df
+
+def clear_all_data():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM responses")
+    conn.commit()
+    conn.close()
+    
+def delete_row_by_id(row_id):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM responses WHERE id = ?", (row_id,))
+    conn.commit()
+    conn.close()

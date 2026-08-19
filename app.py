@@ -317,7 +317,7 @@ with st.sidebar:
     st.markdown("### 📊 Araştırmacı Paneli")
     admin_password = st.text_input("Yönetici Şifresi:", type="password")
     
-    if admin_password == "airesearch2003":
+    if admin_password == "admin123":
         st.success("Yönetici girişi başarılı!")
         df = database.get_all_data_df()
         st.write(f"**Toplam Katılımcı Sayısı:** {len(df)}")
@@ -335,7 +335,7 @@ with st.sidebar:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-        # 2. Türkiye Excel Uyumlu CSV Formatında İndirme
+        # 2. CSV İndirme
         csv_data = df.to_csv(index=False, sep=';', encoding='utf-8-sig').encode('utf-8-sig')
         st.download_button(
             label="📥 CSV Olarak İndir (.csv)",
@@ -343,3 +343,19 @@ with st.sidebar:
             file_name="arastirma_veriseti.csv",
             mime="text/csv"
         )
+
+        # 3. Satır Satır Silme Bölümü
+        st.write("---")
+        st.markdown("#### 🗑️ Satır Sil")
+        if not df.empty:
+            selected_id = st.selectbox("Silinecek Kayıt ID:", options=df["id"].tolist())
+            if st.button("Seçili Satırı Sil", type="secondary"):
+                database.delete_row_by_id(selected_id)
+                st.warning(f"ID: {selected_id} olan kayıt silindi!")
+                st.rerun()
+
+        # 4. Tümünü Silme Bölümü
+        if st.button("⚠️ Tüm Verileri Sıfırla", type="secondary"):
+            database.clear_all_data()
+            st.warning("Tüm veriler temizlendi!")
+            st.rerun()
