@@ -18,7 +18,7 @@ database.init_db()
 st.set_page_config(page_title="AI Etkileşim Araştırması", page_icon="🤖", layout="centered")
 
 # Gemini API istemcisini başlat
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
 if not api_key:
     st.error("API Anahtarı bulunamadı! Lütfen .env dosyasını kontrol edin.")
     st.stop()
