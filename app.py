@@ -1,8 +1,9 @@
+import io
 import os
 import random
 import uuid
-import streamlit as st
 import pandas as pd
+import streamlit as st
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -20,7 +21,7 @@ st.set_page_config(page_title="AI Etkileşim Araştırması", page_icon="🤖", 
 # Gemini API istemcisini başlat
 api_key = os.getenv("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY")
 if not api_key:
-    st.error("API Anahtarı bulunamadı! Lütfen .env dosyasını kontrol edin.")
+    st.error("API Anahtarı bulunamadı! Lütfen .env dosyasını veya Streamlit Secrets ayarlarını kontrol edin.")
     st.stop()
 
 client = genai.Client(api_key=api_key)
@@ -41,7 +42,7 @@ if "total_input_tokens" not in st.session_state:
 if "total_output_tokens" not in st.session_state:
     st.session_state.total_output_tokens = 0
 if "age" not in st.session_state:
-    st.session_state.age = 20
+    st.session_state.age = 22
 if "ai_experience" not in st.session_state:
     st.session_state.ai_experience = "Haftada birkaç kez"
 
@@ -54,13 +55,11 @@ if st.session_state.step == "consent":
     st.write(
         """
         Bu çalışma, insan-yapay zeka etkileşimi üzerine yürütülen bilimsel bir araştırma projesidir.
-        Deney yaklaşık **3-5 dakika** sürecektir. Katkılarınız için teşekkür ederiz.
+        Deney yaklaşık **2-3 dakika** sürecektir. Katkılarınız için teşekkür ederiz.
         """
     )
     
-    st.write("""3 dakikanızı alacak mini bir yapay zeka deneyine katılıp bana destek olur musunuz? 
-             Testin sonunda yapay zekanın size özel bir şarkı hediyesi var 🎧"""
-    )
+    st.info("💡 Testin sonunda yapay zekanın size özel nostaljik bir Türkçe şarkı hediyesi var! 🎧")
 
     with st.form("demographics_form"):
         age = st.number_input("Yaşınız:", min_value=15, max_value=80, value=22)
@@ -93,31 +92,31 @@ elif st.session_state.step == "chat":
 
     st.info(TASK_DESCRIPTION)
 
-    # Sohbet geçmişini ekrana yaz
+    # Sohbet geçmişini ekrana yazdır
     for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
+        role_label = "assistant" if msg["role"] in ["assistant", "model"] else "user"
+        with st.chat_message(role_label):
             st.markdown(msg["content"])
 
     # Kullanıcıdan mesaj alma
     user_input = st.chat_input("Mesajınızı yazın...")
 
     if user_input:
-        # Kullanıcı mesajını kaydet ve göster
+        # Kullanıcı mesajını kaydet
         st.session_state.messages.append({"role": "user", "content": user_input})
         st.session_state.turn_count += 1
 
-        # Sistem promptunu koşula göre seç
+        # Sistem talimatını koşula göre belirle
         system_instruction = (
             SYSTEM_PROMPT_HIGH_ANTHRO
             if st.session_state.condition == "High_Anthro"
             else SYSTEM_PROMPT_LOW_ANTHRO
         )
 
-        # Gemini API Çağrısı (Model: gemini-2.5-flash)
         with st.spinner("Yanıt oluşturuluyor..."):
             try:
-                # API formatına uygun mesaj geçmişini hazırla
-                contents = [
+                # Gemini SDK formatına uygun mesaj geçmişini hazırla
+                contents_payload = [
                     types.Content(
                         role="user" if m["role"] == "user" else "model",
                         parts=[types.Part.from_text(text=m["content"])],
@@ -125,20 +124,18 @@ elif st.session_state.step == "chat":
                     for m in st.session_state.messages
                 ]
 
-                # app.py içerisindeki API çağrısı kısmı:
-                # Gemini API Çağrısı (Düşünme modu kapalı, hızlı ve net yanıt)
+                # Gemini API Çağrısı
                 response = client.models.generate_content(
                     model="gemini-2.5-flash",
-                    contents=gemini_contents,
+                    contents=contents_payload,
                     config=types.GenerateContentConfig(
                         system_instruction=system_instruction,
                         temperature=0.7,
-                        max_output_tokens=300,
-                        thinking_config=types.ThinkingConfig(thinking_budget=0)  # Token israfını ve takılmayı engeller
+                        max_output_tokens=600
                     )
                 )
 
-                bot_response = response.text
+                bot_response = response.text or "Bir hata oluştu, lütfen tekrar deneyin."
                 st.session_state.messages.append({"role": "assistant", "content": bot_response})
 
                 # Token sayılarını arka planda biriktir
@@ -192,12 +189,10 @@ elif st.session_state.step == "survey":
         submit_survey = st.form_submit_button("Anketi Tamamla ve Gönder")
 
         if submit_survey:
-            # Toplam token hesabı
             total_tokens = (
                 st.session_state.total_input_tokens + st.session_state.total_output_tokens
             )
 
-            # Verileri kaydet
             data_to_save = {
                 "session_id": st.session_state.session_id,
                 "condition": st.session_state.condition,
@@ -299,7 +294,6 @@ elif st.session_state.step == "finished":
         unsafe_allow_html=True
     )
 
-    # Otomatik Arama Bağlantıları (Spotify & YouTube)
     query_encoded = song['title'].replace(" ", "+")
     spotify_search_url = f"https://open.spotify.com/search/{query_encoded}"
     youtube_search_url = f"https://www.youtube.com/results?search_query={query_encoded}"
@@ -312,11 +306,10 @@ elif st.session_state.step == "finished":
 
     st.caption("Sekmeyi dilediğiniz zaman kapatabilirsiniz.")
 
+
 # ==========================================
 # 5. ADIM: YÖNETİCİ PANELİ & VERİ İNDİRME (SIDEBAR)
 # ==========================================
-import io
-
 with st.sidebar:
     st.markdown("### 📊 Araştırmacı Paneli")
     admin_password = st.text_input("Yönetici Şifresi:", type="password")
