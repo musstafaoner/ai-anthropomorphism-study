@@ -216,7 +216,7 @@ elif st.session_state.step == "survey":
 
 
 # ==========================================
-# 4. ADIM: BİTİŞ EKRANI & SPOTIFY ŞARKI HEDİYESİ
+# 4. ADIM: BİTİŞ EKRANI & ŞARKI HEDİYESİ
 # ==========================================
 elif st.session_state.step == "finished":
     st.balloons()
@@ -226,75 +226,85 @@ elif st.session_state.step == "finished":
     st.write("---")
     st.subheader("🎵 Katkınız İçin Size Özel Nostaljik Türkçe Şarkı Hediyesi")
 
-    # Nostaljik Türkçe Şarkı Havuzu
-    # 50 Şarkılık Türkçe Nostalji ve Pop Havuzu
     SONG_LIST = [
-        {"title": "Tarkan - Kuzu Kuzu", "note": "2000'lerin efsanevi zilli klasiği! 🪩", "spotify_id": "0v8N9oQJ01G4m6xHqYF9eQ"},
-        {"title": "Tarkan - Şıkıdım", "note": "Ritmine kapılmadan duramayacağınız unutulmaz bir klasik! ✨", "spotify_id": "2yE4yX8KkI3y6aE10oI5yY"},
-        {"title": "Tarkan - Dudu", "note": "Doğu-batı sentezinin en keyifli 2000'ler hitlerinden! 🎶", "spotify_id": "1m0LzqZ9t7YjBfJp6O4C0u"},
-        {"title": "Tarkan - Ölürüm Sana", "note": "90'ların sonunu kasıp kavuran yüksek tempolu başyapıt! ⚡", "spotify_id": "4W2T6K6e4zG8Lp4K0N8g4H"},
-        {"title": "Tarkan - Kış Güneşi", "note": "Türk pop tarihinin en dokunaklı ve unutulmaz melodilerinden. 🍂", "spotify_id": "0g7y4E6m7K8wX9pL2o3M5k"},
-        {"title": "Barış Manço - Kara Sevda", "note": "Gitar riffleri ve enerjisiyle Türk rock tarihinin zirvesi! 🎸", "spotify_id": "2kHqYh0a2GvB0lE0wJ6v3k"},
-        {"title": "Barış Manço - Dönence", "note": "Zamansız melodisi ve sözleriyle benzersiz bir yolculuk. 🌌", "spotify_id": "5m8L4k9P0o2M3k7L6N8v9k"},
-        {"title": "Barış Manço - Sarı Çizmeli Mehmet Ağa", "note": "Hem düşündüren hem oynatan efsane bir Anadolu rock klasiği! 🌾", "spotify_id": "1x6Y7w8E9p0O1k2M3L4n5O"},
-        {"title": "Barış Manço - Gülpembe", "note": "Müzik tarihimizin en naif ve içten bestelerinden. 🌸", "spotify_id": "3e7R8t9Y0u1I2o3P4a5S6d"},
-        {"title": "Barış Manço - Alla Beni Pulla Beni", "note": "Neşeli ritmiyle modunuzu anında yerine getirecek bir klasik! 💃", "spotify_id": "7w8E9r0T1y2U3i4O5p6A7s"},
-        {"title": "Sezen Aksu - Rakkas", "note": "Neşesi ve coşkusuyla yerinde durdurmayan zamansız bir başyapıt! 🪕", "spotify_id": "4qY1vH2z9N0k8lB7wX3c1v"},
-        {"title": "Sezen Aksu - Sarışın", "note": "90'ların en kıpır kıpır Sezen marşlarından biri! ☀️", "spotify_id": "6r7T8y9U0i1O2p3A4s5D6f"},
-        {"title": "Sezen Aksu - Hadi Bakalım", "note": "'Hadi bakalım kolay gelsin!' dedirten tam bir enerji bombası! 🚀", "spotify_id": "2y3U4i5O6p7A8s9D0f1G2h"},
-        {"title": "Sezen Aksu - Seni Yerler", "note": "Radyolardan hiç düşmeyen eğlenceli ve kıvrak bir Sezen hiti! 🍓", "spotify_id": "3u4I5o6P7a8S9d0F1g2H3j"},
-        {"title": "Sezen Aksu - Şinanay", "note": "Ada vapurunda çay içiyormuş gibi hissettiren neşeli bir melodi. 🌊", "spotify_id": "4i5O6p7A8s9D0f1G2h3J4k"},
-        {"title": "Mustafa Sandal - Araba", "note": "90'ların efsanevi arabalı klibini ve melodisini hatırlatan hit! 🚗", "spotify_id": "3vL4yH2k9N0m8lB7wX1c5v"},
-        {"title": "Mustafa Sandal - Aya Benzer", "note": "O meşhur dans figürlerini anında hatırlatan 90'lar pop klasiği! 🌙", "spotify_id": "5t6Y7u8I9o0P1a2S3d4F5g"},
-        {"title": "Mustafa Sandal - Pazara Kadar", "note": "Mezara kadar dedirten 2000'lerin en hareketli şarkılarından! 💃", "spotify_id": "7u8I9o0P1a2S3d4F5g6H7j"},
-        {"title": "Sertab Erener - Rengârenk", "note": "Hayat dolu, pozitif ve rengarenk hissettiren harika bir melodi! 🌈", "spotify_id": "1mN0pQ5vK9z2yL4xW8b7vM"},
-        {"title": "Sertab Erener - Everyway That I Can", "note": "2003 Eurovision birincimiz, hala ilk günkü gibi enerjik! 🏆", "spotify_id": "8i9O0p1A2s3D4f5G6h7J8k"},
-        {"title": "Sertab Erener - Yanarım", "note": "Vokaliyle ve yaylılarıyla büyüleyen zamansız bir eser. 🔥", "spotify_id": "9o0P1a2S3d4F5g6H7j8K9l"},
-        {"title": "Kenan Doğulu - Çakkıdı", "note": "Türkçe popun en eğlenceli ve neşeli dans parçalarından biri! 🕶️", "spotify_id": "0p1A2s3D4f5G6h7J8k9L0m"},
-        {"title": "Kenan Doğulu - Aşk ile Yap", "note": "Yaptığınız her işe enerji ve neşe katacak pozitif bir parça! 💫", "spotify_id": "1a2S3d4F5g6H7j8K9l0M1n"},
-        {"title": "Kenan Doğulu - Shake It Up Şekerim", "note": "Eurovision coşkusunu ve 2000'ler popunu yaşatan harika bir şarkı! 🍭", "spotify_id": "2s3D4f5G6h7J8k9L0m1N2o"},
-        {"title": "Nil Karaibrahimgil - Kanatlarım Var Ruhumda", "note": "Özgürlük ve neşe hissini sonuna kadar veren kıpır kıpır bir şarkı! 🕊️", "spotify_id": "3d4F5g6H7j8K9l0M1n2O3p"},
-        {"title": "Nil Karaibrahimgil - Pırlanta", "note": "'Tek taşımı kendim aldım' dedirten özgüven dolu bir marş! 💎", "spotify_id": "4f5G6h7J8k9L0m1N2o3P4q"},
-        {"title": "MFÖ - Ele Güne Karşı", "note": "Türkçe müzik tarihinin en ikonik ve söylenmesi en keyifli parçası! 🎸", "spotify_id": "5g6H7j8K9l0M1n2O3p4Q5r"},
-        {"title": "MFÖ - Ali Desidero", "note": "Mizahi sözleri ve eğlenceli ritmiyle kült bir MFÖ şaheseri! 🥊", "spotify_id": "6h7J8k9L0m1N2o3P4q5R6s"},
-        {"title": "MFÖ - Sarı Laleler", "note": "Sabah serinliğinde dinlenecek en naif ve tatlı nostaljik aşk şarkısı. 🌷", "spotify_id": "7j8K9l0M1n2O3p4Q5r6S7t"},
-        {"title": "Erkin Koray - Fesuphanallah", "note": "70'lerden günümüze dillerden düşmeyen muhteşem bir melodi! 🪕", "spotify_id": "8k9L0m1N2o3P4q5R6s7T8u"},
-        {"title": "Erkin Koray - Şaşkın", "note": "Giriş melodisiyle insanı hemen içine çeken efsanevi bir eser! 🐪", "spotify_id": "9l0M1n2O3p4Q5r6S7t8U9v"},
-        {"title": "Erkin Koray - Çöpçüler", "note": "Sokakların hüznünü ve sıcaklığını anlatan unutulmaz bir klasik. 🧹", "spotify_id": "0m1N2o3P4q5R6s7T8u9V0w"},
-        {"title": "Candan Erçetin - Yalan", "note": "90'lar sonuna damga vurmuş, melodisi kulaklardan silinmeyen bir eser. 🕯️", "spotify_id": "1n2O3p4Q5r6S7t8U9v0W1x"},
-        {"title": "Candan Erçetin - Melek", "note": "Balkan ezgileriyle dinleyeni bambaşka diyarlara götüren bir hit. 🎻", "spotify_id": "2o3P4q5R6s7T8u9V0w1X2y"},
-        {"title": "Duman - Her Şeyi Yak", "note": "Sezen Aksu bestesinin Duman yorumuyla rock zirvesine ulaştığı o parça! 🎸", "spotify_id": "3p4Q5r6S7t8U9v0W1x2Y3z"},
-        {"title": "Duman - Senden Daha Güzel", "note": "Konserlerde binlerce kişinin tek bir ağızdan söylediği bir marş! 🌟", "spotify_id": "4q5R6s7T8u9V0w1X2y3Z4a"},
-        {"title": "Athena - Kafama Göre", "note": "Kafayı dağıtıp anın tadını çıkarmak isteyenlere özel ska-punk enerjisi! 🛹", "spotify_id": "5r6S7t8U9v0W1x2Y3z4A5b"},
-        {"title": "Athena - For Real", "note": "Eurovision sahnesini sallayan yerinde duramayan ska klasiği! 🎺", "spotify_id": "6s7T8u9V0w1X2y3Z4a5B6c"},
-        {"title": "Athena - Holigan", "note": "Statların ve sokakların asla eskimeyen yüksek tempolu marşı! ⚽", "spotify_id": "7t8U9v0W1x2Y3z4A5b6C7d"},
-        {"title": "Mor ve Ötesi - Cambaz", "note": "2000'ler Türkçe alternatif rock müziğinin en güçlü kilometre taşı! 🥁", "spotify_id": "8u9V0w1X2y3Z4a5B6c7D8e"},
-        {"title": "Mor ve Ötesi - Bir Derdim Var", "note": "Giriş solosuyla bile tüyleri diken diken eden efsanevi şarkı. 🎸", "spotify_id": "9v0W1x2Y3z4A5b6C7d8E9f"},
-        {"title": "Şebnem Ferah - Sil Baştan", "note": "Hayata yeniden başlama gücü veren Türkçe rockın en güçlü vokali! 🦅", "spotify_id": "0w1X2y3Z4a5B6c7D8e9F0g"},
-        {"title": "Şebnem Ferah - Yağmurlar", "note": "Duygusal derinliğiyle 90'lardan bu yana dinlenen eşsiz bir beste. 🌧️", "spotify_id": "1x2Y3z4A5b6C7d8E9f0G1h"},
-        {"title": "Teoman - Paramparça", "note": "Kelimeleri ve hissiyle dönemin gençliğini özetleyen kült bir klasik. 🍂", "spotify_id": "2y3Z4a5B6c7D8e9F0g1H2i"},
-        {"title": "Teoman - Gönülçelen", "note": "Akustik gitarı ve nostaljik hüznüyle Teoman'ın en sevilen parçalarından. 📻", "spotify_id": "3z4A5b6C7d8E9f0G1h2I3j"},
-        {"title": "Burak Kut - Benimle Oynama", "note": "90'lar gençlik patlamasının ve pop rüzgarının başlangıç noktası! 🪩", "spotify_id": "4a5B6c7D8e9F0g1H2i3J4k"},
-        {"title": "Yonca Evcimik - Abone", "note": "90'lar Türkçe popunun miladı sayılan, enerjisi hiç bitmeyen şarkı! 📟", "spotify_id": "5b6C7d8E9f0G1h2I3j4K5l"},
-        {"title": "Hakan Peker - Ateşini Yolla Bana", "note": "Klipleri ve danslarıyla 90'ların en kıpır kıpır nostaljisi! 🔥", "spotify_id": "6c7D8e9F0g1H2i3J4k5L6m"},
-        {"title": "Çelik - Hercai", "note": "90'lar aşk şarkılarının en samimi ve unutulmaz melodilerinden. 🌹", "spotify_id": "7d8E9f0G1h2I3j4K5l6M7n"},
-        {"title": "İzel-Çelik-Ercan - Dönmelisin", "note": "90'ların başında fırtınalar estiren o efsanevi üçlünün klasiği! 🎙️", "spotify_id": "8e9F0g1H2i3J4k5L6m7N8o"}
+        {"title": "Tarkan - Kuzu Kuzu", "note": "2000'lerin efsanevi zilli klasiği! 🪩"},
+        {"title": "Tarkan - Şıkıdım (Hepsi Senin mi?)", "note": "Ritmine kapılmadan duramayacağınız unutulmaz bir Tarkan klasiği! ✨"},
+        {"title": "Tarkan - Dudu", "note": "Doğu-batı sentezinin en keyifli 2000'ler hitlerinden! 🎶"},
+        {"title": "Tarkan - Ölürüm Sana", "note": "90'ların sonunu kasıp kavuran yüksek tempolu başyapıt! ⚡"},
+        {"title": "Tarkan - Kış Güneşi", "note": "Türk pop tarihinin en dokunaklı ve unutulmaz melodilerinden. 🍂"},
+        {"title": "Barış Manço - Kara Sevda", "note": "Gitar riffleri ve enerjisiyle Türk rock tarihinin zirvesi! 🎸"},
+        {"title": "Barış Manço - Dönence", "note": "Zamansız melodisi ve sözleriyle benzersiz bir yolculuk. 🌌"},
+        {"title": "Barış Manço - Sarı Çizmeli Mehmet Ağa", "note": "Hem düşündüren hem oynatan efsane bir Anadolu rock klasiği! 🌾"},
+        {"title": "Barış Manço - Gülpembe", "note": "Müzik tarihimizin en naif ve içten bestelerinden. 🌸"},
+        {"title": "Barış Manço - Alla Beni Pulla Beni", "note": "Neşeli ritmiyle modunuzu anında yerine getirecek bir klasik! 💃"},
+        {"title": "Sezen Aksu - Rakkas", "note": "Neşesi ve coşkusuyla yerinde durdurmayan zamansız bir başyapıt! 🪕"},
+        {"title": "Sezen Aksu - Sarışın", "note": "90'ların en kıpır kıpır Sezen marşlarından biri! ☀️"},
+        {"title": "Sezen Aksu - Hadi Bakalım", "note": "'Hadi bakalım kolay gelsin!' dedirten tam bir enerji bombası! 🚀"},
+        {"title": "Sezen Aksu - Seni Yerler", "note": "Radyolardan hiç düşmeyen eğlenceli ve kıvrak bir Sezen hiti! 🍓"},
+        {"title": "Sezen Aksu - Şinanay", "note": "Ada vapurunda çay içiyormuş gibi hissettiren neşeli bir melodi. 🌊"},
+        {"title": "Mustafa Sandal - Araba", "note": "90'ların efsanevi arabalı klibini ve melodisini hatırlatan hit! 🚗"},
+        {"title": "Mustafa Sandal - Aya Benzer", "note": "O meşhur dans figürlerini anında hatırlatan 90'lar pop klasiği! 🌙"},
+        {"title": "Mustafa Sandal - Pazara Kadar", "note": "Mezara kadar dedirten 2000'lerin en hareketli şarkılarından! 💃"},
+        {"title": "Sertab Erener - Rengârenk", "note": "Hayat dolu, pozitif ve rengarenk hissettiren harika bir melodi! 🌈"},
+        {"title": "Sertab Erener - Everyway That I Can", "note": "2003 Eurovision birincimiz, hala ilk günkü gibi enerjik! 🏆"},
+        {"title": "Sertab Erener - Yanarım", "note": "Vokaliyle ve yaylılarıyla büyüleyen zamansız bir eser. 🔥"},
+        {"title": "Kenan Doğulu - Çakkıdı", "note": "Türkçe popun en eğlenceli ve neşeli dans parçalarından biri! 🕶️"},
+        {"title": "Kenan Doğulu - Aşk ile Yap", "note": "Yaptığınız her işe enerji ve neşe katacak pozitif bir parça! 💫"},
+        {"title": "Kenan Doğulu - Shake It Up Şekerim", "note": "Eurovision coşkusunu ve 2000'ler popunu yaşatan harika bir şarkı! 🍭"},
+        {"title": "Nil Karaibrahimgil - Kanatlarım Var Ruhumda", "note": "Özgürlük ve neşe hissini sonuna kadar veren kıpır kıpır bir şarkı! 🕊️"},
+        {"title": "Nil Karaibrahimgil - Pırlanta", "note": "'Tek taşımı kendim aldım' dedirten özgüven dolu bir marş! 💎"},
+        {"title": "MFÖ - Ele Güne Karşı", "note": "Türkçe müzik tarihinin en ikonik ve söylenmesi en keyifli parçası! 🎸"},
+        {"title": "MFÖ - Ali Desidero", "note": "Mizahi sözleri ve eğlenceli ritmiyle kült bir MFÖ şaheseri! 🥊"},
+        {"title": "MFÖ - Sarı Laleler", "note": "Sabah serinliğinde dinlenecek en naif ve tatlı nostaljik aşk şarkısı. 🌷"},
+        {"title": "Erkin Koray - Fesuphanallah", "note": "70'lerden günümüze dillerden düşmeyen muhteşem bir melodi! 🪕"},
+        {"title": "Erkin Koray - Şaşkın", "note": "Giriş melodisiyle insanı hemen içine çeken efsanevi bir eser! 🐪"},
+        {"title": "Erkin Koray - Çöpçüler", "note": "Sokakların hüznünü ve sıcaklığını anlatan unutulmaz bir klasik. 🧹"},
+        {"title": "Candan Erçetin - Yalan", "note": "90'lar sonuna damga vurmuş, melodisi kulaklardan silinmeyen bir eser. 🕯️"},
+        {"title": "Candan Erçetin - Melek", "note": "Balkan ezgileriyle dinleyeni bambaşka diyarlara götüren bir hit. 🎻"},
+        {"title": "Duman - Her Şeyi Yak", "note": "Sezen Aksu bestesinin Duman yorumuyla rock zirvesine ulaştığı o parça! 🎸"},
+        {"title": "Duman - Senden Daha Güzel", "note": "Konserlerde binlerce kişinin tek bir ağızdan söylediği bir marş! 🌟"},
+        {"title": "Athena - Kafama Göre", "note": "Kafayı dağıtıp anın tadını çıkarmak isteyenlere özel ska-punk enerjisi! 🛹"},
+        {"title": "Athena - For Real", "note": "Eurovision sahnesini sallayan yerinde duramayan ska klasiği! 🎺"},
+        {"title": "Athena - Holigan", "note": "Statların ve sokakların asla eskimeyen yüksek tempolu marşı! ⚽"},
+        {"title": "Mor ve Ötesi - Cambaz", "note": "2000'ler Türkçe alternatif rock müziğinin en güçlü kilometre taşı! 🥁"},
+        {"title": "Mor ve Ötesi - Bir Derdim Var", "note": "Giriş solosuyla bile tüyleri diken diken eden efsanevi şarkı. 🎸"},
+        {"title": "Şebnem Ferah - Sil Baştan", "note": "Hayata yeniden başlama gücü veren Türkçe rockın en güçlü vokali! 🦅"},
+        {"title": "Şebnem Ferah - Yağmurlar", "note": "Duygusal derinliğiyle 90'lardan bu yana dinlenen eşsiz bir beste. 🌧️"},
+        {"title": "Teoman - Paramparça", "note": "Kelimeleri ve hissiyle dönemin gençliğini özetleyen kült bir klasik. 🍂"},
+        {"title": "Teoman - Gönülçelen", "note": "Akustik gitarı ve nostaljik hüznüyle Teoman'ın en sevilen parçalarından. 📻"},
+        {"title": "Burak Kut - Benimle Oynama", "note": "90'lar gençlik patlamasının ve pop rüzgarının başlangıç noktası! 🪩"},
+        {"title": "Yonca Evcimik - Abone", "note": "90'lar Türkçe popunun miladı sayılan, enerjisi hiç bitmeyen şarkı! 📟"},
+        {"title": "Hakan Peker - Ateşini Yolla Bana", "note": "Klipleri ve danslarıyla 90'ların en kıpır kıpır nostaljisi! 🔥"},
+        {"title": "Çelik - Hercai", "note": "90'lar aşk şarkılarının en samimi ve unutulmaz melodilerinden. 🌹"},
+        {"title": "İzel-Çelik-Ercan - Dönmelisin", "note": "90'ların başında fırtınalar estiren o efsanevi üçlünün klasiği! 🎙️"}
     ]
 
     if "selected_song" not in st.session_state:
         st.session_state.selected_song = random.choice(SONG_LIST)
 
     song = st.session_state.selected_song
-    st.markdown(f"**Öneri:** {song['title']}")
-    st.info(song["note"])
     
-    # Spotify Oynatıcı Kartı
-    st.components.v1.iframe(
-        f"https://open.spotify.com/embed/track/{song['spotify_id']}?utm_source=generator&theme=0",
-        width=100,
-        height=152,
-        scrolling=False
+    # Şarkı Kartı Tasarımı
+    st.markdown(
+        f"""
+        <div style="background-color: #1e293b; padding: 20px; border-radius: 12px; border-left: 6px solid #10b981; margin: 15px 0;">
+            <h3 style="color: #f8fafc; margin-top: 0;">🎧 {song['title']}</h3>
+            <p style="color: #cbd5e1; font-size: 15px; margin-bottom: 15px;">{song['note']}</p>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+
+    # Otomatik Arama Bağlantıları (Spotify & YouTube)
+    query_encoded = song['title'].replace(" ", "+")
+    spotify_search_url = f"https://open.spotify.com/search/{query_encoded}"
+    youtube_search_url = f"https://www.youtube.com/results?search_query={query_encoded}"
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.link_button("🟢 Spotify'da Dinle", spotify_search_url, use_container_width=True)
+    with col2:
+        st.link_button("🔴 YouTube'da Dinle", youtube_search_url, use_container_width=True)
 
     st.caption("Sekmeyi dilediğiniz zaman kapatabilirsiniz.")
 
