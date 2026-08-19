@@ -126,13 +126,15 @@ elif st.session_state.step == "chat":
                 ]
 
                 # app.py içerisindeki API çağrısı kısmı:
+                # Gemini API Çağrısı (Düşünme modu kapalı, hızlı ve net yanıt)
                 response = client.models.generate_content(
                     model="gemini-2.5-flash",
                     contents=gemini_contents,
                     config=types.GenerateContentConfig(
                         system_instruction=system_instruction,
                         temperature=0.7,
-                        max_output_tokens=150  # Uzun yanıt vermesini engeller
+                        max_output_tokens=300,
+                        thinking_config=types.ThinkingConfig(thinking_budget=0)  # Token israfını ve takılmayı engeller
                     )
                 )
 
