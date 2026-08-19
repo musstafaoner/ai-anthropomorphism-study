@@ -57,6 +57,10 @@ if st.session_state.step == "consent":
         Deney yaklaşık **3-5 dakika** sürecektir. Katkılarınız için teşekkür ederiz.
         """
     )
+    
+    st.write("""3 dakikanızı alacak mini bir yapay zeka deneyine katılıp bana destek olur musunuz? 
+             Testin sonunda yapay zekanın size özel bir şarkı hediyesi var 🎧"""
+    )
 
     with st.form("demographics_form"):
         age = st.number_input("Yaşınız:", min_value=15, max_value=80, value=22)
@@ -212,13 +216,31 @@ elif st.session_state.step == "survey":
 
 
 # ==========================================
-# 4. ADIM: BİTİŞ EKRANI
+# 4. ADIM: BİTİŞ EKRANI & ŞARKI ÖNERİSİ HEDİYESİ
 # ==========================================
 elif st.session_state.step == "finished":
     st.balloons()
     st.success("Tebrikler! Katılımınız başarıyla kaydedildi.")
-    st.write("Araştırmamıza sağladığınız değerli katkılar için teşekkür ederiz. Sekmeyi kapatabilirsiniz.")
+    st.write("Araştırmamıza sağladığınız değerli katkılar için çok teşekkür ederiz.")
     
+    st.write("---")
+    st.subheader("🎵 Katkınız İçin Size Özel Şarkı Önerisi")
+    
+    if "song_recommendation" not in st.session_state:
+        with st.spinner("Sizin için özel bir şarkı seçiliyor..."):
+            try:
+                # Gemini'den hızlıca güzel bir şarkı tavsiyesi isteyelim
+                prompt_song = "Bana enerjik, dinlemesi keyifli, popüler veya kaliteli bir şarkı öner. Format: 'Şarkı Adı - Sanatçı' ve 1 cümlelik neden dinlemesi gerektiğine dair eğlenceli bir not olsun."
+                res = client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    contents=prompt_song
+                )
+                st.session_state.song_recommendation = res.text
+            except Exception:
+                st.session_state.song_recommendation = "Daft Punk - Get Lucky 🎶 (Günün enerjisini yükseltmek için harika bir parça!)"
+    
+    st.info(st.session_state.song_recommendation)
+    st.caption("Sekmeyi dilediğiniz zaman kapatabilirsiniz.")
 
 # ==========================================
 # 5. ADIM: YÖNETİCİ PANELİ & VERİ İNDİRME (SIDEBAR)
